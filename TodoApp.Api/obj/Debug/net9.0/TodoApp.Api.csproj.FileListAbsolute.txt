@@ -144,3 +144,9 @@ C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\obj\Debug\net9.0
 C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\obj\Debug\net9.0\TodoApp.Api.pdb
 C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\obj\Debug\net9.0\TodoApp.Api.genruntimeconfig.cache
 C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\obj\Debug\net9.0\ref\TodoApp.Api.dll
+C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\bin\Debug\net9.0\BCrypt-Net-Next.dll
+C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\User\Desktop\Programas\Registros_PUC-MINAS\TodoApp.Api\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

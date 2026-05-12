@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore; // Necessário para o UseSqlite
 using TodoApp.Api.Data;
+using TodoApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=todo.db"));
+
+builder.Services.AddScoped<AuthService>();
 
 var app = builder.Build();
 

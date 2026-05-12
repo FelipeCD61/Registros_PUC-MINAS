@@ -7,7 +7,9 @@ namespace TodoApp.Api.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        // Isso criará uma tabela chamada "Tasks" no SQLite
+        // Cria uma tabela chamada Tasks baseada na classe User"
         public DbSet<TodoTask> Tasks { get; set; }
+        // Cria uma tabela chamada Users baseada na classe User"
+        public DbSet<User> Users { get; set; }
     }
 }
