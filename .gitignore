@@ -1,0 +1,25 @@
+# Banco de dados local SQLite (Evita enviar os teus dados de teste para o GitHub)
+*.db
+*.db-shm
+*.db-wal
+
+
+# Pacotes de bibliotecas
+frontend/**/node_modules/
+frontend/**/dist/
+frontend/**/build/
+
+
+# Variáveis de ambiente locais
+.env
+.env.local
+
+
+# Ficheiros do VS Code
+.vscode/
+*.code-workspace
+
+# Ficheiros do Visual Studio e Rider
+.vs/
+.idea/
+*.user
