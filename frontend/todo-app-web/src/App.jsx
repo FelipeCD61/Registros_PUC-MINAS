@@ -1,12 +1,22 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login';
+import './App.css';
 
 function App() {
   return (
-    <div style={{ textAlign: 'center', padding: '50px' }}>
-      <h1>Todo App do Felipe</h1>
-      <p>O Frontend React está pronto e configurado!</p>
-    </div>
+    // O BrowserRouter liga o sistema de navegação do React
+    <BrowserRouter>
+      <Routes>
+        {/* Quando entrar no site (raiz), redireciona logo para o /login */}
+        <Route path="/" element={<Navigate to="/login" />} />
+        
+        {/* o caminho /login carrega o componente Login */}
+        <Route path="/login" element={<Login />} />
+        
+        {/* Uma rota provisória para provar que o login funcionou */}
+        <Route path="/tarefas" element={<h2 style={{ textAlign: 'center', marginTop: '50px' }}>Login com Sucesso! O CRUD de tarefas ficará aqui.</h2>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
