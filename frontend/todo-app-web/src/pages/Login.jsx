@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api'; 
-// IMPORTANTE: Trazemos o estilo da pasta assets
+import Cadastro from '../components/Cadastro';
 import '../assets/login.css'; 
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [mostrarPopUp, setMostrarPopUp] = useState(false);
     
     const navigate = useNavigate();
 
@@ -32,7 +33,6 @@ function Login() {
         <div className="container-login">
             <h2 className="titulo-login">Login - Todo App</h2>
             
-            {/* A mensagem de erro agora tem um fundo vermelho claro para destacar */}
             {error && <div className="mensagem-erro">{error}</div>}
             
             <form onSubmit={handleLogin} className="form-login">
@@ -56,6 +56,13 @@ function Login() {
                 
                 <button type="submit" className="btn-entrar">Entrar</button>
             </form>
+
+            <button onClick={() => setMostrarPopUp(true)} className="btn-alternar-tela">
+                Cadastre-se
+            </button>
+
+            {mostrarPopUp && <Cadastro onClose={() => setMostrarPopUp(false)} />}
+
         </div>
     );
 }

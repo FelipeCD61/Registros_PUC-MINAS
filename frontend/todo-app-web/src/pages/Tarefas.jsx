@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import TarefaItem from '../components/TarefaItem';
 import '../assets/tarefas.css';
 
 function Tarefas() {
     const [tarefas, setTarefas] = useState([]);
     const [novaTarefa, setNovaTarefa] = useState('');
-    
-    // NOVAS VARIÁVEIS DE ESTADO PARA A EDIÇÃO
-    const [idTarefaEmEdicao, setIdTarefaEmEdicao] = useState(null);
-    const [textoEditado, setTextoEditado] = useState('');
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -76,29 +72,13 @@ function Tarefas() {
         }
     };
 
-    // NOVA FUNÇÃO: Ativa o modo de edição para uma tarefa específica
-    const iniciarEdicao = (tarefa) => {
-        setIdTarefaEmEdicao(tarefa.id);
-        setTextoEditado(tarefa.title); // Preenche a caixa de texto com o título atual
-    };
-
-    // NOVA FUNÇÃO: Cancela a edição
-    const cancelarEdicao = () => {
-        setIdTarefaEmEdicao(null);
-        setTextoEditado('');
-    };
-
-    // NOVA FUNÇÃO: Envia o texto modificado para o C#
-    const handleSalvarEdicao = async (tarefa) => {
+    const handleSalvarEdicao = async (tarefa, novoTitulo) => {
         const token = localStorage.getItem('token');
         try {
             await api.put(`/TodoTask/${tarefa.id}`,
-                // Mantemos o id e o status, mas mudamos o title para o texto novo
-                { ...tarefa, title: textoEditado },
+                { ...tarefa, title: novoTitulo },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            // Depois de salvar, saímos do modo de edição e recarregamos a lista
-            setIdTarefaEmEdicao(null);
             carregarTarefas(token); 
         } catch (error) {
             console.error("Erro ao salvar edição", error);
@@ -131,48 +111,14 @@ function Tarefas() {
 
             <ul className="lista-tarefas">
                 {tarefas.map((tarefa) => (
-                    <li key={tarefa.id} className="item-tarefa">
-                        
-                        
-                        {idTarefaEmEdicao === tarefa.id ? (
-                            
-                            // se sim: Mostra o campo de edição e os botões Salvar/Cancelar
-                            <div className="container-edicao">
-                                <input 
-                                    type="text" 
-                                    value={textoEditado} 
-                                    onChange={(e) => setTextoEditado(e.target.value)} 
-                                    className="input-edicao"
-                                    autoFocus // Coloca o cursor a piscar automaticamente aqui
-                                />
-                                <button onClick={() => handleSalvarEdicao(tarefa)} className="btn-salvar">Salvar</button>
-                                <button onClick={cancelarEdicao} className="btn-cancelar">Cancelar</button>
-                            </div>
-
-                        ) : (
-                            
-                            // se não: Mostra o texto normal, botão Editar e botão Excluir
-                            <>
-                                <span 
-                                    onClick={() => handleAlternarStatus(tarefa)}
-                                    className={`texto-tarefa ${tarefa.isCompleted ? 'tarefa-concluida' : ''}`}
-                                    title="Clique para marcar como concluída ou pendente"
-                                >
-                                    {tarefa.title} 
-                                </span>
-                                
-                                <div className="acoes-tarefa">
-                                    <button onClick={() => iniciarEdicao(tarefa)} className="btn-editar">
-                                        Editar
-                                    </button>
-                                    <button onClick={() => handleExcluir(tarefa.id)} className="btn-excluir">
-                                        Excluir
-                                    </button>
-                                </div>
-                            </>
-
-                        )}
-                    </li>
+                    // Aqui usamos o nosso componente reutilizável e passamos as props!
+                    <TarefaItem 
+                        key={tarefa.id} 
+                        tarefa={tarefa} 
+                        onAlternarStatus={handleAlternarStatus}
+                        onExcluir={handleExcluir}
+                        onSalvarEdicao={handleSalvarEdicao}
+                    />
                 ))}
             </ul>
         </div>

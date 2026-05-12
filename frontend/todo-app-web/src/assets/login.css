@@ -51,3 +51,18 @@
 .btn-entrar:hover {
     background-color: #218838;
 }
+
+.btn-alternar-tela {
+    margin-top: 20px;
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.btn-alternar-tela:hover {
+    color: #0056b3;
+}
