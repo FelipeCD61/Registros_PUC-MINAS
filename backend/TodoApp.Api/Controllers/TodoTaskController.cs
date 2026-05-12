@@ -45,6 +45,11 @@ namespace TodoApp.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoTask>> CreateTask(TaskDto request)
         {
+            // Verifica se as regras do TaskDto foram respeitadas
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             int userId = GetUserId();
 
             // Monta a tarefa ligando-a ao ID do utilizador logado

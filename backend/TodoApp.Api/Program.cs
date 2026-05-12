@@ -87,6 +87,23 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// Bloco garante que a base de dados é criada/atualizada ao iniciar
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        // Este comando aplica qualquer Migration que ainda não esteja na BD
+        context.Database.Migrate();
+        Console.WriteLine("--> Base de dados sincronizada com sucesso!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"--> Erro ao sincronizar a base de dados: {ex.Message}");
+    }
+}
+
 // Configura a Pipeline (o caminho da requisição HTTP)
 if (app.Environment.IsDevelopment())
 {

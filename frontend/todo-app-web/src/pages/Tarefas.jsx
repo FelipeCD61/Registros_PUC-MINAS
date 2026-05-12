@@ -8,6 +8,7 @@ function Tarefas() {
     const [tarefas, setTarefas] = useState([]);
     const [novaTarefa, setNovaTarefa] = useState('');
     const navigate = useNavigate();
+    const [mensagemErro, setMensagemErro] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -34,7 +35,9 @@ function Tarefas() {
 
     const handleAdicionar = async (e) => {
         e.preventDefault();
+        setMensagemErro(''); // Limpa erros anteriores ao tentar novamente
         const token = localStorage.getItem('token');
+        
         try {
             await api.post('/TodoTask', 
                 { title: novaTarefa, isCompleted: false }, 
@@ -43,7 +46,15 @@ function Tarefas() {
             setNovaTarefa(''); 
             carregarTarefas(token); 
         } catch (error) {
-            console.error("Erro ao adicionar tarefa", error);
+            // Se o Backend devolver erro 400 (validação falhou)
+            if (error.response && error.response.status === 400) {
+                const validacoes = error.response.data.errors;
+                // Transforma o objeto de erros do C# numa string legível
+                const mensagem = Object.values(validacoes).flat().join(" ");
+                setMensagemErro(mensagem);
+            } else {
+                setMensagemErro("Erro ao adicionar tarefa. Tente novamente.");
+            }
         }
     };
 
@@ -72,8 +83,9 @@ function Tarefas() {
         }
     };
 
-    const handleSalvarEdicao = async (tarefa, novoTitulo) => {
+const handleSalvarEdicao = async (tarefa, novoTitulo) => {
         const token = localStorage.getItem('token');
+        setMensagemErro('');
         try {
             await api.put(`/TodoTask/${tarefa.id}`,
                 { ...tarefa, title: novoTitulo },
@@ -81,9 +93,13 @@ function Tarefas() {
             );
             carregarTarefas(token); 
         } catch (error) {
-            console.error("Erro ao salvar edição", error);
+            if (error.response && error.response.status === 400) {
+                const validacoes = error.response.data.errors;
+                const mensagem = Object.values(validacoes).flat().join(" ");
+                setMensagemErro(`Erro na edição: ${mensagem}`);
+            }
         }
-    };
+    }
 
     const handleSair = () => {
         localStorage.removeItem('token');
@@ -108,7 +124,12 @@ function Tarefas() {
                 />
                 <button type="submit" className="btn-adicionar">Adicionar</button>
             </form>
-
+            {/*Exibe a mensagem de erro vermelha no ecrã */}
+            {mensagemErro && (
+                <div className="mensagem-erro-tarefa" style={{ color: 'red', marginBottom: '10px', fontSize: '14px' }}>
+                    {mensagemErro}
+                </div>
+            )}
             <ul className="lista-tarefas">
                 {tarefas.map((tarefa) => (
                     // Aqui usamos o nosso componente reutilizável e passamos as props!

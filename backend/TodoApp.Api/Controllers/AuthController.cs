@@ -24,8 +24,19 @@ namespace TodoApp.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        public async Task<ActionResult<User>> Register(RegisterDto request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // Verifica se já existe alguém com esse nome no banco de dados
+            var userExists = await _context.Users.AnyAsync(u => u.Username == request.Username);
+            if (userExists)
+            {
+                return BadRequest("Este nome de utilizador já está em uso.");
+            }
+
             // Transforma a senha em um Hash seguro
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
@@ -35,10 +46,16 @@ namespace TodoApp.Api.Controllers
                 PasswordHash = passwordHash
             };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Utilizador registado com sucesso!" });
+            try 
+                {
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { message = "Utilizador registado com sucesso!" });
+                }
+                catch (Exception)
+                {
+                    return StatusCode(500, "Erro interno ao salvar o utilizador.");
+                }
         }
 
         [HttpPost("login")]
