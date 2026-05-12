@@ -94,8 +94,8 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        // Este comando aplica qualquer Migration que ainda não esteja na BD
-        context.Database.Migrate();
+        // Este comando cria a base de dados se ela não existir e aplica as migrações pendentes
+        context.Database.EnsureCreated();
         Console.WriteLine("--> Base de dados sincronizada com sucesso!");
     }
     catch (Exception ex)
