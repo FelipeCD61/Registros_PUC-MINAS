@@ -7,21 +7,51 @@ using TodoApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Adiciona suporte aos Controllers
+// Adiciona suporte aos Controllers
 builder.Services.AddControllers();
 
-// 2. Configura o Swagger/OpenAPI
+// Configura o Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-// 3. Configura o Banco de Dados SQLite
+// Nova configuração do Swagger para aceitar o Token JWT
+builder.Services.AddSwaggerGen(c =>
+{
+    // Define como o botão Authorize vai funcionar
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Insira o token JWT gerado no Login."
+    });
+
+    // Aplica a segurança a todos os endpoints que testarmos
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+// Configura o Banco de Dados SQLite
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=todo.db"));
 
-// 4. Registra o nosso serviço de Autenticação
+// Registra o nosso serviço de Autenticação
 builder.Services.AddScoped<AuthService>();
 
-// 5. Configura o JWT (Como o token é gerado e validado)
+// Configura o JWT (Como o token é gerado e validado)
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? "SuaChaveSuperSecretaEMuitoLonga123!");
 builder.Services.AddAuthentication(x =>
 {
