@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
+import Tarefas from './pages/Tarefas';
 import './App.css';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         
         {/* Uma rota provisória para provar que o login funcionou */}
-        <Route path="/tarefas" element={<h2 style={{ textAlign: 'center', marginTop: '50px' }}>Login com Sucesso! O CRUD de tarefas ficará aqui.</h2>} />
+        <Route path="/tarefas" element={<Tarefas />} />
       </Routes>
     </BrowserRouter>
   );
