@@ -56,7 +56,7 @@ namespace TodoApp.Api.Controllers
             var newTask = new TodoTask
             {
                 Title = request.Title,
-                Description = request.Description,
+                Description = request.Description ?? string.Empty,
                 IsCompleted = request.IsCompleted,
                 UserId = userId 
             };

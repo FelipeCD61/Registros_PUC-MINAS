@@ -11,7 +11,7 @@ namespace TodoApp.Api.Models
         [MinLength(3, ErrorMessage = "O título deve ter pelo menos 3 caracteres.")]
         [MaxLength(100, ErrorMessage = "O título não pode exceder 100 caracteres.")]
         public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
