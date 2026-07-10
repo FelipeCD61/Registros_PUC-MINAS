@@ -20,7 +20,7 @@ Este projeto é uma aplicação web completa (Fullstack) para gestão de tarefas
 
 ## Instruções para Execução do Backend
 
-Para rodar a API localmente, precisas de ter o [.NET SDK](https://dotnet.microsoft.com/) instalado no teu computador.
+Para rodar a API localmente, precisa ter o [.NET 10 SDK](https://dotnet.microsoft.com/) instalado no teu computador.
 
 1. Abre o teu terminal.
 2. Navega até à pasta do backend:
@@ -28,7 +28,7 @@ Para rodar a API localmente, precisas de ter o [.NET SDK](https://dotnet.microso
    cd backend/TodoApp.Api
    dotnet run
 
-3. A API estará disponível (ex: `http://localhost:5218`). O Swagger pode ser acedido adicionando `/swagger` ao URL para testar os endpoints diretamente no navegador.
+3. A API estará disponível (ex: `http://localhost:5218`). O Swagger pode ser acessado adicionando `/swagger` ao URL para testar os endpoints diretamente no navegador.
 
 ## Instruções para Execução do Frontend
 
